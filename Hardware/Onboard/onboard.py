@@ -1,6 +1,5 @@
 from microbit import pin0, sleep, display
 import radio #Allows microbits to communicate
-import json
 
 RATE = 20
 pin0.set_analog_period(RATE)
@@ -38,21 +37,22 @@ def processRadioCommand(cmd):
     global location
     if cmd[0] == "L": #Location
         lat,lon = next(location)
-        out = {"lat":lat,"lon":lon}
-        return json.dumps(out)
+        return str(lat)+";"+str(lon)
+
     elif cmd[0] == "M": #Motor
         if cmd[1] == "1":
-            setAngle(-60)
-            return json.dumps({"status":True})
+            setAngle(-60,pin0)
+            return "Status,True"
         elif cmd[1] == "2":
-            setAngle(60)
-            return json.dumps({"status":True})
+            setAngle(60,pin0)
+            return "Status,True"
         else:
-            return json.dumps({"status":False})
+            return "Status,False"
 
 
 while True:
     msg = radio.receive()
-    result = processRadioCommand(msg)
-    radio.send(result)
+    if msg != None:
+        result = processRadioCommand(msg)
+        radio.send(result)
 
