@@ -10,7 +10,7 @@ body{
     margin: 0px;
     width: 100%;
     height: 100%;
-    background-image: url('bluestars.jpg');
+    background-image: url('../assets/bluestars.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-color: black;
