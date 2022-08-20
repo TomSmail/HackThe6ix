@@ -83,9 +83,9 @@ class Pipeline:
         else:
             print('Alive forrest')
 
-    def run_model_generation():
+    def run_model_generation(self):
         train_dataset, validation_dataset = self.split_datasets()
         self.generate_model(train_dataset, validation_dataset)
 
 if __name__ == '__main__':
-    Pipeline.split_datasets()
+    Pipeline.run_model_generation()
