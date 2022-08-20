@@ -32,13 +32,6 @@ function findCentreOfCoords(coords2DArray){
     return centreCoord;
 }
 
-function zoom(bool){
-    if (bool){
-        zoomIn(2);
-    }else{
-        zoomOut(2);
-    }
-}
 
 //var marker = WE.marker([51.5, -0.1]).addTo(earth)
 //marker.bindPopup('<b>Hello world!</b>');
