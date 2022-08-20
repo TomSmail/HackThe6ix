@@ -21,6 +21,11 @@ def setAngle(angle,pin):
     return True
 
 def spoofLocation():
+    """Spoof location as:
+    a) Microbit does not have GPS; custom PCB would
+    b) We are not in Canada for testing!
+    """
+    
     lat = 56.1304
     lon = -106.3468
     STEP_Lat = 0.01
