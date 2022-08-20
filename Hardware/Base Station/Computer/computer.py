@@ -3,10 +3,14 @@
 import serial
 import time
 
+EVERY = 5
+
 ser = serial.Serial()
 ser.baudrate = 115200
 ser.port = "COM5"
 ser.open()
+
+start = time.time()
 
 while True:
     print("waiting")
@@ -17,4 +21,9 @@ while True:
     else:
         print("Lat: " + values[0])
         print("Lon: " + values[1])
+    
+    now = time.time()
+    if (now-start % )
+
+    
 

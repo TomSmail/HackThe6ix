@@ -1,3 +1,4 @@
+
 function initializeMap(){
     var earth = new WE.map('earth_div');
     // Centres on British Columbia
@@ -12,7 +13,7 @@ function initializeMap(){
 }
 
 function addMarker(coords, earth){
-    var marker = WE.marker(position = coords, iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png', width = 32, height = 32).addTo(earth)
+    var droneMarker = WE.marker(position = coords, iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png', width = 32, height = 32).addTo(earth);
 }
 
 function addZone(coords2DArray, earth, color){

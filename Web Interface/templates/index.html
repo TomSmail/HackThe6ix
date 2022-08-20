@@ -3,13 +3,13 @@
   <head>
     <title>HTQ - MPB</title>
     <script src="http://www.webglearth.com/v2/api.js"></script>
-    <script src="mapping.js"></script>
-    <link rel="stylesheet" href="mappingStyles.css">
+    <script src="{{ url_for('static',filename='mapping.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='mappingStyles.css') }}">
   </head>
   <body onLoad="initializeMap()">
       
       <div id="earth_div"></div>
-      <header><img src="../assets/bug.png" style="width: 75px;"></header>
+      <header><img src="{{url_for('static',filename='assets/bug.png')}}" style="width: 75px;"></header>
   </body>
 </html>
 
