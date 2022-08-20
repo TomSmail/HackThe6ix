@@ -1,5 +1,6 @@
 function initializeMap(){
     var earth = new WE.map('earth_div');
+    // Centres on British Columbia
     earth.setView([53, -124], 2);
     
     var layer = WE.tileLayer('https://api.mapbox.com/styles/v1/starswap/ciwqktlti00282qldewk9ouvu/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic3RhcnN3YXAiLCJhIjoiY2l3cWVpaHp0MDAwYzJ3bGxvNmFzbWtxZiJ9.DdzWiexFsKv0ghcxEJXPvQ');
@@ -29,6 +30,14 @@ function findCentreOfCoords(coords2DArray){
     const centreCoord  = [totalXCoords/coords2DArray.length, totalYCoords/coords2DArray.length];
     console.log(centreCoord);
     return centreCoord;
+}
+
+function zoom(bool){
+    if (bool){
+        zoomIn(2);
+    }else{
+        zoomOut(2);
+    }
 }
 
 //var marker = WE.marker([51.5, -0.1]).addTo(earth)
