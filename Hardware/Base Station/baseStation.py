@@ -1,37 +1,26 @@
-from microbit import button_a, button_b, display
+#second microbit acting as radio adapter to pass from radio over serial
+
+from microbit import button_a, button_b, uart, display
 import radio
 import time
 
 START_GROUP = 2
 CHANNEL = 17
-radio.config(group=START_GROUP,queue=1,channel=CHANNEL) #group = channel; queue=1 ensures that the microbits only store a backlog of 1 message rather than storing loads, meaning they can't get clogged up. The microbits are always listening even when doing something else and messages are added to a queue. Here we cap the queue at size 1 message
+radio.config(group=START_GROUP,queue=1,channel=CHANNEL,length=100) #group = channel; queue=1 ensures that the microbits only store a backlog of 1 message rather than storing loads, meaning they can't get clogged up. The microbits are always listening even when doing something else and messages are added to a queue. Here we cap the queue at size 1 message
 radio.on() #radio communication is off by default to save power so we need to activate it.
 DELAY = 1
 
 servo_on = False
+uart.init(baudrate=115200)
 
 while True:
-    if button_a.is_pressed():
-        if servo_on:
-            radio.send("M1")
-            servo_on = False
-        else:
-            radio.send("M2")
-            servo_on = True
-        msg = None
-        while not(msg):
-            msg = radio.receive()            
-        print(msg)
-        time.sleep(DELAY)
+    msgBytes = uart.read()
+    if msgBytes:
+        display.scroll("Received serial")
+        radio.send_bytes(msgBytes)
+        response = None
+        while response == None:
+            response = radio.receive_bytes()
+        #print(response)
+        uart.write(response) #send out over serial
     
-    elif button_b.is_pressed():
-        radio.send("L")
-        msg = None
-        while not(msg):
-            msg = radio.receive()
-        print(msg) #send message over serial port to PC
-        time.sleep(DELAY)
-
-    
-
-

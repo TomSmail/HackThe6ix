@@ -1,0 +1,20 @@
+//We use protobufs for radio communication between the ground and air stations, since we want to transfer as small an amount of data as possible for performance.
+
+syntax = "proto3";
+
+
+
+//Location interface for map update
+message Request {
+    int32 requesttype = 1;
+}
+
+message LocationResponse {
+    double lat = 1;
+    double lon = 2;
+}
+
+message InsecticideResponse {
+    bool successful = 1;
+    bool outOfJuice = 2;
+}
