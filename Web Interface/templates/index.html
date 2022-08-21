@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>HTQ - MPB</title>
+    <title>Pine Protection - Map Overview</title>
     <script src="http://www.webglearth.com/v2/api.js"></script>
     <script src="{{ url_for('static',filename='mapping.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static',filename='mappingStyles.css') }}">
@@ -9,7 +9,10 @@
   <body onLoad="initializeMap()">
       
       <div id="earth_div"></div>
-      <header><img src="{{url_for('static',filename='assets/logoCropped.png')}}" style="width: 120px; border-radius: 5px;"></header>
+      <header><img src="{{url_for('static',filename='assets/logoCropped.png')}}" style="width: 120px;"></header>
+      <footer id="footer"></footer>
+
+
   </body>
 </html>
 

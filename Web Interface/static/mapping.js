@@ -1,6 +1,7 @@
+var droneMarker, earth;
 
 function initializeMap(){
-    var earth = new WE.map('earth_div');
+    earth = new WE.map('earth_div');
     // Centres on British Columbia
     earth.setView([53, -124], 2);
     
@@ -10,10 +11,14 @@ function initializeMap(){
     const centreCoord = findCentreOfCoords(coords2DArray);
     addZone(coords2DArray, earth,'#ff0000');
     addMarker(centreCoord, earth);
+    const DELAY = 1000;
+    setInterval(updatePos,DELAY);
 }
 
-function addMarker(coords, earth){
-    var droneMarker = WE.marker(position = coords, iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png', width = 32, height = 32).addTo(earth);
+function addMarker(coords){
+    droneMarker = WE.marker(position = coords, iconUrl = '/static/assets/drone.png', width = 32, height = 32).addTo(earth);
+    document.getElementById("footer").innerHTML = 'Pine Protection Drone <br /><b>Lat:'+coords[0].toString()+'</b><br /><b>Lon:'+coords[1].toString()+'</b><br />';
+    droneMarker.on("click",triggerInsecticideRelease);
 }
 
 function addZone(coords2DArray, earth, color){
@@ -32,6 +37,29 @@ function findCentreOfCoords(coords2DArray){
     console.log(centreCoord);
     return centreCoord;
 }
+
+function updatePos() {
+    fetch("/api/dronePos").then((response) => response.json()) 
+                          .then((json) => {
+                            droneMarker.removeFrom(earth);
+                            console.log(json)
+                            addMarker([json.lat,json.lon]);
+
+    })
+}
+
+function triggerInsecticideRelease() {
+    fetch("/api/servo").then((response) => response.json()) 
+                          .then((json) => {
+                            alert("Insecticide Drop Successful");
+                            }
+                          );
+                        
+}
+
+
+
+
 
 
 //var marker = WE.marker([51.5, -0.1]).addTo(earth)

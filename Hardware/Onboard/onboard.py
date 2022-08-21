@@ -1,15 +1,8 @@
 from microbit import pin0, sleep, display
 import radio #Allows microbits to communicate
+from drone_pb2_onboard import locationResponse,insecticideResponse,whichRequestType
 
-RATE = 20
-pin0.set_analog_period(RATE)
-display.scroll('Hello, World!')  
-
-START_GROUP = 2
-CHANNEL = 17
-radio.config(group=START_GROUP,queue=1,channel=CHANNEL) #group = channel; queue=1 ensures that the microbits only store a backlog of 1 message rather than storing loads, meaning they can't get clogged up. The microbits are always listening even when doing something else and messages are added to a queue. Here we cap the queue at size 1 message
-radio.on() #radio communication is off by default to save power so we need to activate it.
-
+import sys
 def setAngle(angle,pin):
     """Set the servo to a particular angle from -90 to +90 degrees"""
     if (angle > 90 or angle < -90):
@@ -25,7 +18,7 @@ def spoofLocation():
     a) Microbit does not have GPS; custom PCB would
     b) We are not in Canada for testing!
     """
-    
+
     lat = 56.1304
     lon = -106.3468
     STEP_Lat = 0.01
@@ -36,28 +29,62 @@ def spoofLocation():
         lat += STEP_Lat
         lon += STEP_Lon
 
+def getDroneLocation():
+    global location
+    return next(location)
 
-location = spoofLocation()
+outOfJuice = False
+currAngle = 60
+
 def processRadioCommand(cmd):
     global location
-    if cmd[0] == "L": #Location
-        lat,lon = next(location)
-        return str(lat)+";"+str(lon)
-
-    elif cmd[0] == "M": #Motor
-        if cmd[1] == "1":
-            setAngle(-60,pin0)
-            return "Status,True"
-        elif cmd[1] == "2":
-            setAngle(60,pin0)
-            return "Status,True"
+    global outOfJuice
+    global currAngle
+    
+    type = whichRequestType(msgBytes)
+    if type == 1:
+        print("location")
+        lat,lon = getDroneLocation()
+        bytesOut = locationResponse(lat,lon)
+    
+    elif type == 2:
+        print("servo")
+        if outOfJuice:
+            bytesOut = insecticideResponse(False,True)
         else:
-            return "Status,False"
+            bytesOut = insecticideResponse(True,True)
+        
+        if currAngle == 60:
+            currAngle = -60
+        elif currAngle == -60:
+            currAngle = 60
 
+        setAngle(currAngle,pin0)
+        
+    return bytesOut
+
+
+RATE = 20
+pin0.set_analog_period(RATE)
+display.scroll('Hello, World!')  
+
+START_GROUP = 2
+CHANNEL = 17
+radio.config(group=START_GROUP,queue=1,channel=CHANNEL,length=100) #group = channel; queue=1 ensures that the microbits only store a backlog of 1 message rather than storing loads, meaning they can't get clogged up. The microbits are always listening even when doing something else and messages are added to a queue. Here we cap the queue at size 1 message
+radio.on() #radio communication is off by default to save power so we need to activate it.
+
+
+location = spoofLocation()
 
 while True:
-    msg = radio.receive()
-    if msg != None:
-        result = processRadioCommand(msg)
-        radio.send(result)
+    msgBytes = radio.receive_bytes()
+    if msgBytes != None:
+        display.scroll("Received message")
+        #result = processRadioCommand(msgBytes)
+        print(repr(result))
+        radio.send_bytes(result)
+        
+
+
+
 
