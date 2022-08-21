@@ -16,7 +16,7 @@ uart.init(baudrate=115200)
 while True:
     msgBytes = uart.read()
     if msgBytes:
-        display.scroll("Received serial")
+        #display.scroll("Received serial")
         radio.send_bytes(msgBytes)
         response = None
         while response == None:

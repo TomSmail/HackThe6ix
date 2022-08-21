@@ -80,7 +80,7 @@ while True:
     msgBytes = radio.receive_bytes()
     if msgBytes != None:
         display.scroll("Received message")
-        result = processRadioCommand(msgBytes)
+        #result = processRadioCommand(msgBytes)
         print(repr(result))
         radio.send_bytes(result)
         

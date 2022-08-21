@@ -2,8 +2,6 @@
 
 syntax = "proto3";
 
-
-
 //Location interface for map update
 message Request {
     int32 requesttype = 1;

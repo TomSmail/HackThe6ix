@@ -3,7 +3,7 @@ try:
     import struct
 except ImportError:
     import ustruct as struct
-    
+
 def encode_double(value: float) -> bytes:
     return struct.pack('<d', value)
 
