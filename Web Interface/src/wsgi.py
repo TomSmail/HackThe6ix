@@ -42,8 +42,6 @@ def callApi(apiCall):
         elif apiCall == "servo":
             myResponse = drone_pb2.InsecticideResponse()
             return {"code":myResponse.successful,"outOfJuice":myResponse.outOfJuice}
-        
-
 
 
 # print(myResponse.lat)
