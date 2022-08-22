@@ -1,0 +1,8 @@
+One microbit connected to computer over USB cable.
+
+Other microbit connected with:
+- Pin 0 to servo yellow 
+- Pin 3V to servo red (middle)
+- Pin GND to servo brown
+
+(will need croc clips and jumper wires)
