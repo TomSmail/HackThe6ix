@@ -12,4 +12,4 @@ We present an all in one system for combatting this epidemic, comprising:
 
 <img src="globe_screenshot.png" alt="Pine Protection example screen" />
 
-This project was created for <a href="https://devpost.com/software/bug-sprayer">Hack The 6ix 2022</a>, achieving 2nd Place overall and the "Best Hardware Project" prize.
+This project was created for <a href="https://devpost.com/software/bug-sprayer">Hack The 6ix 2022</a>, achieving 2nd Place overall, "Best Hardware Project"  and "Best Use of Protocol Buffers".
